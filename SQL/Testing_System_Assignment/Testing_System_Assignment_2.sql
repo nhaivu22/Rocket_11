@@ -296,6 +296,72 @@ UPDATE `account`
 SET fullname = 'Nguyễn bá lộc',  email = 'loc.nguyenba@vti.com.vn'
 WHERE accountid = '5';
 
--- Question 10
+-- Question 10Viết lệnh để lấy ra danh sách nhân viên và thông tin phòng ban của họ
+SELECT *
+FROM `account` a
+JOIN department d ON a.DepartmentID= d.DepartmentID;
 
+-- Question 11: Viết lệnh để lấy ra tất cả các developer
+SELECT * 
+FROM question q
+JOIN categoryquestion c ON q.CategoryID=c.CategoryID
+WHERE CategoryName="java";
+
+-- Question 12: Viết lệnh để lấy ra danh sách các phòng ban có >3 nhân viên
+SELECT Email, a.DepartmentID,count(*)
+FROM `account`a
+JOIN department d ON a.departmentid=d.departmentid
+GROUP BY DepartmentID
+HAVING count(*)>3;
+
+-- question 13: Viết lệnh để lấy ra danh sách câu hỏi được sử dụng trong đề thi nhiều nhất
+SELECT*,count(*)
+FROM question q
+JOIN categoryquestion c ON q.CategoryID=c.CategoryID
+GROUP BY c.CategoryID
+ORDER BY count(*) DESC
+LIMIT 1;
+
+-- Question 15: Lấy ra Question có nhiều câu trả lời nhấtt
+SELECT*,count(QuestionID) 
+FROM answer
+GROUP BY QuestionID
+HAVING count(QuestionID) = (SELECT count(QuestionID) AS soluong
+							FROM answer
+                            GROUP BY QuestionID
+                            ORDER BY soluong DESC
+                            LIMIT 1 );
    
+
+
+-- Question 16: Tìm chức vụ có ít người nhất 
+SELECT *,count(PositionID)
+FROM `account`
+GROUP BY PositionID
+HAVING count(PositionID)=(
+							SELECT count(PositionID) AS soluong
+                            FROM `account`
+                            GROUP BY PositionID
+                            ORDER BY soluong ASC
+                            LIMIT 1);
+
+-- Question 19: Lấy ra số lượng câu hỏi của mỗi loại tự luận hay trắc nghiệm
+SELECT *,count(*)
+FROM question
+GROUP BY TypeID;
+
+-- account tham ggia vào nhiều group
+SELECT *,count(AccountID)
+FROM groupaccount
+GROUP BY AccountID
+HAVING count(AccountID)= (
+							SELECT count(AccountID) AS soluong
+                            FROM groupaccount
+                            GROUP BY AccountID
+                            ORDER BY soluong DESC
+                            LIMIT 1);
+
+
+    
+ 
+
