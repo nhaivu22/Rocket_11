@@ -361,7 +361,19 @@ HAVING count(AccountID)= (
                             ORDER BY soluong DESC
                             LIMIT 1);
 
+DROP PROCEDURE IF EXISTS sp_typeQuestionOfMonth ;
+DROP PROCEDURE IF EXISTS sp_GetCountAccFromGroup;
+DROP PROCEDURE IF EXISTS sp_TypeID_MaxQuestion;
 
-    
- 
+--   question 3: Tạo store để thống kê mỗi type question có bao nhiêu question được tạo  trong tháng hiện tạ
 
+DELIMITER $$
+CREATE PROCEDURE procefure_type_question()
+BEGIN
+
+	SELECT		COUNT(TypeID)
+    FROM		Question
+    WHERE		MONTH(CreateDate) = Month(NOW());
+	
+END$$
+DELIMITER ;
